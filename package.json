@@ -1,0 +1,29 @@
+{
+  "name": "mjshare",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Zero-server-storage, peer-to-peer file sharing built entirely in Next.js + WebRTC, with a socket.io signaling server and SSE fallback",
+  "scripts": {
+    "dev": "node server.js",
+    "dev:https": "node scripts/dev-https.mjs",
+    "build": "next build",
+    "start": "cross-env NODE_ENV=production node server.js"
+  },
+  "dependencies": {
+    "next": "16.2.9",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "socket.io": "4.8.3",
+    "socket.io-client": "4.8.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.3.1",
+    "@types/node": "22.10.2",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "cross-env": "7.0.3",
+    "postcss": "8.5.15",
+    "tailwindcss": "4.3.1",
+    "typescript": "5.7.2"
+  }
+}

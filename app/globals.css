@@ -1,0 +1,152 @@
+@import "tailwindcss";
+
+/* Class-based dark mode: `.dark` on <html> toggles all `dark:` variants. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------ *
+ * Brand ramp + motion tokens (Tailwind v4 CSS-first config).
+ * ------------------------------------------------------------------ */
+@theme {
+  --color-brand-50: #eef2ff;
+  --color-brand-100: #e0e7ff;
+  --color-brand-200: #c7d2fe;
+  --color-brand-300: #a5b4fc;
+  --color-brand-400: #818cf8;
+  --color-brand-500: #6366f1;
+  --color-brand-600: #4f46e5;
+  --color-brand-700: #4338ca;
+  --color-brand-800: #3730a3;
+  --color-brand-900: #312e81;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", monospace;
+
+  --animate-radar-ping: radar-ping 2.6s cubic-bezier(0, 0, 0.2, 1) infinite;
+  --animate-fade-up: fade-up 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-float: float 5s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------------ *
+ * Semantic theme tokens. :root = light, .dark = dark. Components use
+ * these via arbitrary utilities (e.g. text-[var(--text-muted)]) so the
+ * same markup adapts to either theme.
+ * ------------------------------------------------------------------ */
+:root {
+  color-scheme: light;
+  --bg: #f3f4fb;
+  --text: #0f172a;          /* slate-900 */
+  --text-2: #334155;        /* slate-700 */
+  --text-muted: #475569;    /* slate-600 */
+  --text-subtle: #64748b;   /* slate-500 */
+  --accent: #4f46e5;        /* brand-600 */
+  --surface: rgba(255, 255, 255, 0.72);
+  --surface-2: rgba(15, 23, 42, 0.04);
+  --surface-2-hover: rgba(15, 23, 42, 0.07);
+  --border: rgba(15, 23, 42, 0.10);
+  --border-hover: rgba(15, 23, 42, 0.20);
+  --input-bg: #ffffff;
+  --glow-1: rgba(99, 102, 241, 0.12);
+  --glow-2: rgba(56, 189, 248, 0.10);
+  --glass-shadow: 0 18px 44px -30px rgba(2, 6, 23, 0.28);
+}
+
+.dark {
+  color-scheme: dark;
+  --bg: #020617;
+  --text: #f1f5f9;          /* slate-100 */
+  --text-2: #e2e8f0;        /* slate-200 */
+  --text-muted: #94a3b8;    /* slate-400 */
+  --text-subtle: #64748b;   /* slate-500 */
+  --accent: #a5b4fc;        /* brand-300 */
+  --surface: rgba(255, 255, 255, 0.025);
+  --surface-2: rgba(255, 255, 255, 0.04);
+  --surface-2-hover: rgba(255, 255, 255, 0.07);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.16);
+  --input-bg: rgba(0, 0, 0, 0.30);
+  --glow-1: rgba(79, 70, 229, 0.10);
+  --glow-2: rgba(56, 189, 248, 0.06);
+  --glass-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.04),
+    0 18px 50px -28px rgba(2, 6, 23, 0.85);
+}
+
+@keyframes radar-ping {
+  0% { transform: scale(0.55); opacity: 0.55; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+@keyframes fade-up {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* ------------------------------------------------------------------ */
+@layer base {
+  body {
+    @apply min-h-dvh antialiased;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    background-image:
+      radial-gradient(48rem 48rem at 12% -8%, var(--glow-1), transparent 60%),
+      radial-gradient(42rem 42rem at 108% 4%, var(--glow-2), transparent 58%);
+    background-attachment: fixed;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer components {
+  .glass {
+    @apply rounded-2xl backdrop-blur-xl;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--glass-shadow);
+  }
+  .glass-hover {
+    @apply transition-colors duration-200;
+  }
+  .glass-hover:hover {
+    background-color: var(--surface-2-hover);
+    border-color: var(--border-hover);
+  }
+  .focus-ring {
+    @apply outline-none focus-visible:ring-2 focus-visible:ring-brand-400/70 focus-visible:ring-offset-2;
+  }
+  .focus-ring:focus-visible {
+    --tw-ring-offset-color: var(--bg);
+  }
+  .progress-fill {
+    background-image: linear-gradient(
+      90deg,
+      var(--color-brand-500),
+      var(--color-brand-400) 55%,
+      #38bdf8
+    );
+  }
+}
+
+/* Scrollbars */
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.28);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(99, 102, 241, 0.5); background-clip: content-box; }
